@@ -1,0 +1,15 @@
+1.使用docker部署启动openldap
+
+  #创建文件夹
+  mkdir -p /data/openldap/{config,database}
+  
+  拉取镜像
+  docker pull osixia/openldap:1.2.2
+  
+  #启动openldap服务
+  docker run -d --name ldap-service --hostname ldap-service -p 389:389 -p 689:689 -v /data/openldap/database:/var/lib/ldap -v /data/openldap/config:/etc/ldap/sladp.d --env LDAP_ORGANISATION="videojj.com" --env LDAP_DOMAIN="videojj.com" --env LDAP_ADMIN_PASSWORD="videojj" --env LDAP_TLS=false --detach osixia/openldap:1.2.2
+  
+  #启动phpldapadmin图形管理工具
+  docker pull osixia/phpldapadmin:0.7.2
+  
+  docker run --name phpldapadmin-service -p 6443:443 -p 6680:80 --hostname phpldapadmin-service --link ldap-service:videojj.com --env PHPLDAPADMIN_LDAP_HOSTS=videojj.com --env PHPLDAPADMIN_HTTPS=false --detach osixia/phpldapadmin:0.7.2
