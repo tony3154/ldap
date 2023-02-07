@@ -215,8 +215,8 @@ func collectMembersWanMetric(e Exporter, slist *types.SampleList) {
 	for _, entry := range members {
 		//fmt.Println("collectMembersWanMetric:", float64(entry.Status), entry.Name, entry.Tags["dc"])
 		tags := map[string]string{
-			"dc_member": entry.Name,
-			"member_dc": entry.Tags["dc"],
+			"member": entry.Name,
+			"dc":     entry.Tags["dc"],
 		}
 		slist.PushSample(inputName, "serf_wan_member_status", float64(entry.Status), tags)
 	}
@@ -438,5 +438,4 @@ func collectKeyValues(e Exporter, slist *types.SampleList) {
 			}
 		}
 	}
-
 }
