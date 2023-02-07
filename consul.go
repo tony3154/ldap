@@ -245,30 +245,66 @@ func collectHealthStateMetric(e Exporter, slist *types.SampleList) {
 			tags := map[string]string{
 				"check":  hc.CheckID,
 				"node":   hc.Node,
-				"status": hc.Status,
+				"status": "passing",
 			}
 			//fmt.Println("collectHealthStateMetric:", passing, hc.CheckID, hc.Node, consul_api.HealthPassing)
 			slist.PushSample(inputName, "health_node_status", passing, tags)
+			tags = map[string]string{
+				"check":  hc.CheckID,
+				"node":   hc.Node,
+				"status": "warning",
+			}
 			//fmt.Println("collectHealthStateMetric:", warning, hc.CheckID, hc.Node, consul_api.HealthWarning)
 			slist.PushSample(inputName, "health_node_status", warning, tags)
+			tags = map[string]string{
+				"check":  hc.CheckID,
+				"node":   hc.Node,
+				"status": "critical",
+			}
 			//fmt.Println("collectHealthStateMetric:", critical, hc.CheckID, hc.Node, consul_api.HealthCritical)
 			slist.PushSample(inputName, "health_node_status", critical, tags)
+			tags = map[string]string{
+				"check":  hc.CheckID,
+				"node":   hc.Node,
+				"status": "maintenance",
+			}
 			//fmt.Println("collectHealthStateMetric:", maintenance, hc.CheckID, hc.Node, consul_api.HealthMaint)
 			slist.PushSample(inputName, "health_node_status", maintenance, tags)
 		} else {
 			tags := map[string]string{
 				"check":      hc.CheckID,
 				"node":       hc.Node,
-				"status":     hc.Status,
+				"status":     "passing",
 				"service":    hc.ServiceName,
 				"service_id": hc.ServiceID,
 			}
 			//fmt.Println("collectHealthStateMetric:", passing, hc.CheckID, hc.Node, hc.ServiceID, hc.ServiceName, consul_api.HealthPassing)
 			slist.PushSample(inputName, "health_service_status", passing, tags)
+			tags = map[string]string{
+				"check":      hc.CheckID,
+				"node":       hc.Node,
+				"status":     "warning",
+				"service":    hc.ServiceName,
+				"service_id": hc.ServiceID,
+			}
 			//fmt.Println("collectHealthStateMetric:", warning, hc.CheckID, hc.Node, hc.ServiceID, hc.ServiceName, consul_api.HealthWarning)
 			slist.PushSample(inputName, "health_service_status", warning, tags)
+			tags = map[string]string{
+				"check":      hc.CheckID,
+				"node":       hc.Node,
+				"status":     "critical",
+				"service":    hc.ServiceName,
+				"service_id": hc.ServiceID,
+			}
 			//fmt.Println("collectHealthStateMetric:", critical, hc.CheckID, hc.Node, hc.ServiceID, hc.ServiceName, consul_api.HealthCritical, )
 			slist.PushSample(inputName, "health_service_status", critical, tags)
+			tags = map[string]string{
+				"check":      hc.CheckID,
+				"node":       hc.Node,
+				"status":     "maintenance",
+				"service":    hc.ServiceName,
+				"service_id": hc.ServiceID,
+			}
 			//fmt.Println("collectHealthStateMetric:", maintenance, hc.CheckID, hc.Node, hc.ServiceID, hc.ServiceName, consul_api.HealthMaint, )
 			slist.PushSample(inputName, "health_service_status", maintenance, tags)
 			//fmt.Println("collectHealthStateMetric:", 1, hc.ServiceID, hc.ServiceName, hc.CheckID, hc.Name, hc.Node, )
@@ -279,8 +315,7 @@ func collectHealthStateMetric(e Exporter, slist *types.SampleList) {
 				"service_id": hc.ServiceID,
 				"service":    hc.ServiceName,
 			}
-			slist.PushSample(inputName, "health_service_status", 1, etags)
-
+			slist.PushSample(inputName, "service_checks", 1, etags)
 		}
 	}
 
